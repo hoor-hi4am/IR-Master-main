@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>IR Master</title>
+<link href="style.css" rel="stylesheet">
+
+<script src="function.js" defer></script>
+
+</head>
+<body>
+<!-- FUTURISTIC BACKGROUND ELEMENTS -->
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<div class="particles" id="particles"></div>
+
+
+
+<div class="app">
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+
+    <div class="nav-group">Text Processing</div>
+    <div class="nav" id="navProcessing"></div>
+
+    <div class="nav-group">Information Retrieval</div>
+    <div class="nav" id="navIR"></div>
+
+    <div class="nav-group">Similarity & Matching</div>
+    <div class="nav" id="navSim"></div>
+
+    <div class="nav-group">Dataset</div>
+    <div class="nav" id="navData"></div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main>
+    <header class="topbar">
+      <div class="group">
+        <h2 id="pageTitle">Tokenization</h2>
+        <p id="pageSubtitle">Split your text into individual tokens visually.</p>
+      </div>
+      <div class="dataset-pill" id="datasetPill"> 0 documents indexed</div>
+    </header>
+
+    <!-- ===== TOKENIZATION ===== -->
+    <section class="algo active" data-algo="tokenize">
+      <div class="card">
+        <h3>Tokenization <span class="badge">NLP</span></h3>
+        <p class="desc">Tokenization splits text into smaller units (words, punctuation). It's the very first step of every NLP pipeline.</p>
+        <textarea id="tokInput" placeholder="Type a sentence... e.g. The quick brown fox jumps over the lazy dog!"></textarea>
+        <div class="row">
+          <button class="btn" onclick="runTokenize()">Tokenize</button>
+          <button class="btn ghost" onclick="setSample('tokInput','Information retrieval is the science of searching for information in documents.')">Try Example</button>
+          <button class="btn ghost" onclick="document.getElementById('tokInput').value='';document.getElementById('tokOut').innerHTML='<div class=\'empty\'>No tokens yet</div>'">Clear</button>
+        </div>
+        <div class="stats" id="tokStats" style="display:none"></div>
+        <div class="result" id="tokOut"><div class="empty">Type something and click Tokenize</div></div>
+      </div>
+    </section>
+
+    <!-- ===== STOPWORDS ===== -->
+    <section class="algo" data-algo="stopwords">
+      <div class="card">
+        <h3>Stop Word Removal <span class="badge">NLP</span></h3>
+        <p class="desc">Common words like "the", "is", "and" carry little meaning for retrieval. Removing them speeds up indexing and improves relevance.</p>
+        <textarea id="swInput" placeholder="Enter text..."></textarea>
+        <div class="row">
+          <button class="btn" onclick="runStopwords()">Remove Stop Words</button>
+          <button class="btn ghost" onclick="setSample('swInput','The cat is sitting on the mat under a tree')">Try Example</button>
+        </div>
+        <div class="flex" style="margin-top:14px">
+          <div><b style="color:var(--muted);font-size:12px">BEFORE</b><div class="result" id="swBefore"><div class="empty">—</div></div></div>
+          <div><b style="color:var(--muted);font-size:12px">AFTER</b><div class="result" id="swAfter"><div class="empty">—</div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== STEMMING ===== -->
+    <section class="algo" data-algo="stem">
+      <div class="card">
+        <h3>Stemming <span class="badge">NLP</span></h3>
+        <p class="desc">Reduce words to their base/root form by stripping suffixes (e.g. "running" → "run"). Uses a simplified Porter-like algorithm.</p>
+        <textarea id="stInput" placeholder="Enter words..."></textarea>
+        <div class="row">
+          <button class="btn" onclick="runStem()">Stem Words</button>
+          <button class="btn ghost" onclick="setSample('stInput','running runner runs easily fairly happiness boxes flies studies')">Try Example</button>
+        </div>
+        <div class="result" id="stOut"><div class="empty">No stems yet</div></div>
+      </div>
+    </section>
+
+    <!-- ===== NORMALIZATION ===== -->
+    <section class="algo" data-algo="norm">
+      <div class="card">
+        <h3>Normalization <span class="badge">NLP</span></h3>
+        <p class="desc">Lowercase text and strip punctuation/symbols so "Hello!" and "hello" match.</p>
+        <textarea id="nmInput" placeholder="Enter messy text..."></textarea>
+        <div class="row">
+          <button class="btn" onclick="runNorm()">Normalize</button>
+          <button class="btn ghost" onclick="setSample('nmInput','Hello, World!! This is a TEST — with #hashtags & symbols *** 2024.')">Try Example</button>
+        </div>
+        <div class="result" id="nmOut"><div class="empty">No output</div></div>
+      </div>
+    </section>
+
+    <!-- ===== LEMMATIZATION ===== -->
+    <section class="algo" data-algo="lemma">
+      <div class="card">
+        <h3>Lemmatization <span class="badge">NLP</span></h3>
+        <p class="desc">Convert words to their dictionary base form ("better" → "good", "mice" → "mouse"). Uses an inline dictionary + simple rules.</p>
+        <textarea id="lmInput" placeholder="Enter words..."></textarea>
+        <div class="row">
+          <button class="btn" onclick="runLemma()">Lemmatize</button>
+          <button class="btn ghost" onclick="setSample('lmInput','children ran better mice geese was studies leaves')">Try Example</button>
+        </div>
+        <div class="result" id="lmOut"><div class="empty">No lemmas yet</div></div>
+      </div>
+    </section>
+
+    <!-- ===== BOOLEAN ===== -->
+    <section class="algo" data-algo="boolean">
+      <div class="card">
+        <h3>Boolean Retrieval <span class="badge">IR</span></h3>
+        <p class="desc">Search documents using <span class="kbd">AND</span> <span class="kbd">OR</span> <span class="kbd">NOT</span>. Each document is a row in the term-document incidence matrix.</p>
+        <input type="text" id="boolQ" placeholder="e.g. cat AND dog, apple OR orange, data AND NOT noise"/>
+        <div class="row">
+          <button class="btn" onclick="runBoolean()">Run Query</button>
+          <button class="btn ghost" onclick="document.getElementById('boolQ').value='cat AND dog';runBoolean()">Try: cat AND dog</button>
+          <button class="btn ghost" onclick="document.getElementById('boolQ').value='apple OR orange';runBoolean()">Try: apple OR orange</button>
+        </div>
+        <div class="tabs" style="margin-top:18px">
+          <button class="active" onclick="switchTab(this,'boolMatrix')">Incidence Matrix</button>
+          <button onclick="switchTab(this,'boolSteps')">Evaluation Steps</button>
+          <button onclick="switchTab(this,'boolDocs')">Matching Documents</button>
+        </div>
+        <div id="boolMatrix" class="result"><div class="empty">Upload documents in the Dataset tab first</div></div>
+        <div id="boolSteps" class="result" style="display:none"><div class="empty">No query yet</div></div>
+        <div id="boolDocs" class="result" style="display:none"><div class="empty">No matches</div></div>
+      </div>
+    </section>
+
+    <!-- ===== INVERTED INDEX ===== -->
+    <section class="algo" data-algo="inverted">
+      <div class="card">
+        <h3>Inverted Index & Posting Lists <span class="badge">IR</span></h3>
+        <p class="desc">Maps each term → list of documents containing it. The backbone of every search engine.</p>
+        <div class="row">
+          <button class="btn" onclick="runInverted()">Build Index</button>
+        </div>
+        <div class="result" id="invOut"><div class="empty">Upload documents first, then build</div></div>
+      </div>
+    </section>
+
+    <!-- ===== BoW ===== -->
+    <section class="algo" data-algo="bow">
+      <div class="card">
+        <h3>Bag of Words <span class="badge">IR</span></h3>
+        <p class="desc">Each document becomes a vector of word counts — order is ignored.</p>
+        <div class="row">
+          <button class="btn" onclick="runBoW()">Compute BoW</button>
+        </div>
+        <div class="result" id="bowOut"><div class="empty">Upload documents first</div></div>
+      </div>
+    </section>
+
+    <!-- ===== TF-IDF ===== -->
+    <section class="algo" data-algo="tfidf">
+      <div class="card">
+        <h3>TF-IDF + Cosine Similarity <span class="badge">IR</span></h3>
+        <p class="desc">Score document relevance to your query using term frequency × inverse document frequency, then rank by cosine similarity.</p>
+        <input type="text" id="tfQ" placeholder="Type a query..."/>
+        <div class="row">
+          <button class="btn" onclick="runTFIDF()">Search</button>
+          <button class="btn ghost" onclick="document.getElementById('tfQ').value='information retrieval';runTFIDF()">Try Example</button>
+        </div>
+        <div id="tfOut" class="result"><div class="empty">Run a search to see ranked results</div></div>
+      </div>
+    </section>
+
+    <!-- ===== SPELLING ===== -->
+    <section class="algo" data-algo="spell">
+      <div class="card">
+        <h3>Spelling Correction <span class="badge">NLP</span></h3>
+        <p class="desc">Detects misspelled words against a dictionary and suggests corrections using minimum edit distance.</p>
+        <textarea id="spInput" placeholder="Enter text with possibly misspelled words..."></textarea>
+        <div class="row">
+          <button class="btn" onclick="runSpell()">Correct</button>
+          <button class="btn ghost" onclick="setSample('spInput','Ths is a smple txt with som mispeled wrds and informaton retreival')">Try Example</button>
+        </div>
+        <div class="result" id="spOut"><div class="empty">No corrections yet</div></div>
+      </div>
+    </section>
+
+    <!-- ===== EDIT DISTANCE ===== -->
+    <section class="algo" data-algo="edit">
+      <div class="card">
+        <h3>Edit Distance (Levenshtein) <span class="badge">NLP</span></h3>
+        <p class="desc">Minimum number of insertions, deletions, or substitutions to convert one word into another. Visualized as a DP matrix.</p>
+        <div class="flex">
+          <div><input type="text" id="ed1" placeholder="word 1 (e.g. kitten)"/></div>
+          <div><input type="text" id="ed2" placeholder="word 2 (e.g. sitting)"/></div>
+        </div>
+        <div class="row">
+          <button class="btn" onclick="runEdit()">Compute</button>
+          <button class="btn ghost" onclick="document.getElementById('ed1').value='kitten';document.getElementById('ed2').value='sitting';runEdit()">Try Example</button>
+        </div>
+        <div class="result" id="edOut"><div class="empty">Enter two words</div></div>
+      </div>
+    </section>
+
+    <!-- ===== JACCARD ===== -->
+    <section class="algo" data-algo="jaccard">
+      <div class="card">
+        <h3>Jaccard Coefficient <span class="badge">SIM</span></h3>
+        <p class="desc">|A ∩ B| / |A ∪ B| — measures set similarity between two pieces of text.</p>
+        <div class="flex">
+          <div><textarea id="jc1" placeholder="Set A / sentence 1"></textarea></div>
+          <div><textarea id="jc2" placeholder="Set B / sentence 2"></textarea></div>
+        </div>
+        <div class="row">
+          <button class="btn" onclick="runJaccard()">∩ Compute</button>
+          <button class="btn ghost" onclick="document.getElementById('jc1').value='the cat sat on the mat';document.getElementById('jc2').value='the dog sat on the rug';runJaccard()">Try Example</button>
+        </div>
+        <div class="result" id="jcOut"><div class="empty">Enter two sets</div></div>
+      </div>
+    </section>
+
+    <!-- ===== SOUNDEX ===== -->
+    <section class="algo" data-algo="soundex">
+      <div class="card">
+        <h3>Soundex <span class="badge">NLP</span></h3>
+        <p class="desc">Phonetic algorithm: words that sound alike get the same 4-character code (e.g. Robert & Rupert → R163).</p>
+        <input type="text" id="sxInput" placeholder="Enter a word..."/>
+        <div class="row">
+          <button class="btn" onclick="runSoundex()">🔊 Encode</button>
+          <button class="btn ghost" onclick="document.getElementById('sxInput').value='Robert';runSoundex()">Try: Robert</button>
+        </div>
+        <div class="result" id="sxOut"><div class="empty">No code yet</div></div>
+      </div>
+    </section>
+
+    <!-- ===== DATASET ===== -->
+    <section class="algo" data-algo="dataset">
+      <div class="card">
+        <h3>Dataset Manager <span class="badge">CORPUS</span></h3>
+        <p class="desc">Upload a <span class="kbd">.txt</span> file (one document per line) or paste documents below. These power Boolean, Inverted Index, BoW, TF-IDF and Search.</p>
+        <input type="file" id="fileIn" accept=".txt" style="margin-bottom:10px"/>
+        <textarea id="docInput" placeholder="Or paste documents here, one per line..." style="min-height:140px"></textarea>
+        <div class="row">
+          <button class="btn" onclick="loadFromTextarea()">Load Documents</button>
+          <button class="btn ghost" onclick="loadDemoCorpus()">Load Demo Corpus</button>
+          <button class="btn danger" onclick="clearDocs()">Clear</button>
+        </div>
+        <div class="result" id="dsOut"><div class="empty">No documents loaded</div></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="toast" id="toast">Copied!</div>
+
+</body>
+</html>
