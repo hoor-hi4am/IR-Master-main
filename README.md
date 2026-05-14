@@ -8,7 +8,7 @@ Built using **HTML, CSS, and JavaScript (Vanilla JS)**.
 
 ## 🚀 Live Demo
 ```
-https://your-link-here
+https://splendid-starburst-ef7824.netlify.app/
 ```
 
 ---
@@ -122,7 +122,10 @@ This project is designed for:
 ## 📸 Screenshots 
 
 <img width="1920" height="913" alt="ir" src="https://github.com/user-attachments/assets/aec4e831-a0a0-4788-b0c9-39cea7e6bf32" />
+<img width="1920" height="918" alt="Tokenization" src="https://github.com/user-attachments/assets/c0a69583-f2af-436c-b1f8-b595373e857b" />
 <img width="1920" height="889" alt="Stop words" src="https://github.com/user-attachments/assets/7f8dd089-9fa8-49cd-90a4-df81e9aa2a06" />
+<img width="1920" height="910" alt="Edit Distance" src="https://github.com/user-attachments/assets/018677d9-cf35-428a-a34b-5b90d164b7b5" />
+
 
 
 
@@ -132,7 +135,3 @@ This project is designed for:
 * Fully client-side project (no backend required)
 * Works offline after loading
 * Best viewed on desktop
-
-ي
-
-قولي بس 🔥
