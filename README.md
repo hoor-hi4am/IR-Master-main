@@ -1,4 +1,4 @@
-# 📚 NLP Visual Learning Playground
+# NLP Visual Learning Playground
 
 A **web-based interactive educational tool** for visualizing core **Natural Language Processing (NLP)** and **Information Retrieval (IR)** concepts.
 
@@ -6,14 +6,14 @@ Built using **HTML, CSS, and JavaScript (Vanilla JS)**.
 
 ---
 
-## 🚀 Live Demo
+## Live Demo
 ```
 https://splendid-starburst-ef7824.netlify.app/
 ```
 
 ---
 
-## 🧠 Features
+## Features
 
 ### 🔤 Text Processing
 
@@ -56,25 +56,12 @@ https://splendid-starburst-ef7824.netlify.app/
 
 ---
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 * HTML5
 * CSS3 (custom styling + animations)
 * JavaScript (ES6)
 * No frameworks (Vanilla JS)
-
----
-
-## 📁 Project Structure
-
-```
-project/
-│
-├── index.html
-├── style.css
-├── script.js
-└── README.md
-```
 
 ---
 
@@ -108,7 +95,7 @@ index.html
 
 ---
 
-## 🎯 Purpose of Project
+## Purpose of Project
 
 This project is designed for:
 
